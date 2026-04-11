@@ -1,20 +1,459 @@
 <!DOCTYPE html>
-<html lang="en">
+
+<html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>3D Game for iPhone</title>
-  <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Bazaar Polski — Разговорник</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Nunito:wght@400;600;700&display=swap');
+
+:root {
+–bg: #1a1a1a;
+–card: #262626;
+–card-hover: #303030;
+–accent: #d4a04a;
+–accent2: #c4943e;
+–text: #e8e4e0;
+–text2: #8a8580;
+–trans: #d4a04a;
+–rus: #b0aba6;
+–cat-bg: #2a2a2a;
+–shadow: 0 2px 12px rgba(0,0,0,.3);
+color-scheme: dark;
+}
+
+- { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+html, body {
+width:100%; height:100%;
+background: var(–bg);
+color: var(–text);
+font-family: ‘Nunito’, sans-serif;
+overflow: hidden;
+touch-action: manipulation;
+-webkit-font-smoothing: antialiased;
+}
+
+.app {
+display: flex;
+flex-direction: column;
+height: 100vh;
+height: 100dvh;
+}
+
+.header {
+flex-shrink: 0;
+padding: 14px 16px 10px;
+background: #222;
+border-bottom: 1px solid #333;
+text-align: center;
+}
+.header h1 {
+font-family: ‘Playfair Display’, serif;
+font-size: 22px;
+color: var(–accent);
+letter-spacing: 1px;
+}
+.header .sub {
+font-size: 11px;
+color: var(–text2);
+margin-top: 3px;
+}
+
+.search-wrap {
+flex-shrink: 0;
+padding: 8px 12px;
+background: var(–bg);
+position: relative;
+}
+.search-wrap input {
+width: 100%;
+padding: 10px 14px 10px 38px;
+border-radius: 20px;
+border: 1px solid #3a3a3a;
+background: #2a2a2a;
+color: var(–text);
+font-size: 15px;
+font-family: ‘Nunito’, sans-serif;
+outline: none;
+transition: border-color .2s;
+}
+.search-wrap input:focus { border-color: var(–accent); }
+.search-wrap input::placeholder { color: #666; }
+.search-wrap .icon {
+position: absolute;
+left: 24px;
+top: 50%;
+transform: translateY(-50%);
+color: var(–text2);
+font-size: 16px;
+pointer-events: none;
+}
+
+.cats {
+flex-shrink: 0;
+display: flex;
+gap: 6px;
+padding: 4px 12px 8px;
+overflow-x: auto;
+-webkit-overflow-scrolling: touch;
+scrollbar-width: none;
+}
+.cats::-webkit-scrollbar { display:none; }
+.cat-btn {
+flex-shrink: 0;
+padding: 7px 14px;
+border-radius: 20px;
+border: 1px solid #3a3a3a;
+background: #2a2a2a;
+color: #999;
+font-size: 12px;
+font-weight: 600;
+cursor: pointer;
+transition: all .2s;
+white-space: nowrap;
+font-family: ‘Nunito’, sans-serif;
+}
+.cat-btn.active {
+background: var(–accent);
+color: #1a1a1a;
+border-color: var(–accent);
+font-weight: 700;
+}
+
+.list {
+flex: 1;
+overflow-y: auto;
+-webkit-overflow-scrolling: touch;
+padding: 0 12px 80px;
+}
+
+.phrase {
+background: #2a2a2a;
+border-radius: 12px;
+padding: 12px 14px;
+margin-bottom: 8px;
+border-left: 3px solid var(–accent);
+transition: background .15s;
+position: relative;
+}
+.phrase:active { background: #333; }
+
+.phrase .num {
+position: absolute;
+top: 8px;
+right: 12px;
+font-size: 10px;
+color: var(–text2);
+opacity: .5;
+}
+
+.phrase .de {
+font-size: 16px;
+font-weight: 700;
+color: var(–text);
+line-height: 1.3;
+margin-bottom: 4px;
+padding-right: 30px;
+}
+
+.phrase .tr {
+font-size: 14px;
+color: var(–trans);
+line-height: 1.3;
+margin-bottom: 3px;
+font-style: italic;
+}
+
+.phrase .ru {
+font-size: 13px;
+color: var(–rus);
+line-height: 1.3;
+}
+
+.cat-label {
+font-family: ‘Playfair Display’, serif;
+font-size: 15px;
+color: var(–accent);
+padding: 14px 0 6px;
+border-bottom: 1px solid #333;
+margin-bottom: 8px;
+display: flex;
+align-items: center;
+gap: 8px;
+}
+
+.count-badge {
+background: var(–accent);
+color: #1a1a1a;
+font-family: ‘Nunito’, sans-serif;
+font-size: 11px;
+font-weight: 700;
+padding: 1px 8px;
+border-radius: 10px;
+}
+
+.empty {
+text-align: center;
+padding: 40px 20px;
+color: var(–text2);
+font-size: 14px;
+}
+
+.top-btn {
+position: fixed;
+bottom: 20px;
+right: 16px;
+width: 44px;
+height: 44px;
+border-radius: 50%;
+background: var(–accent);
+color: #1a1a1a;
+border: none;
+font-size: 20px;
+font-weight: 700;
+box-shadow: var(–shadow);
+cursor: pointer;
+display: none;
+align-items: center;
+justify-content: center;
+z-index: 10;
+touch-action: manipulation;
+}
+.top-btn.show { display: flex; }
+</style>
+
 </head>
 <body>
-  <div id="game-container"></div>
-  <div class="controls">
-    <button id="forward">Forward</button>
-    <button id="backward">Backward</button>
-    <button id="left">Left</button>
-    <button id="right">Right</button>
+<div class="app">
+  <div class="header">
+    <h1>🕌 Bazaar Polski</h1>
+    <div class="sub">Разговорник продавца · Польский</div>
   </div>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="app.js"></script>
+
+  <div class="search-wrap">
+    <span class="icon">🔍</span>
+    <input type="text" id="search" placeholder="Поиск фразы..." autocomplete="off">
+  </div>
+
+  <div class="cats" id="cats"></div>
+  <div class="list" id="list"></div>
+  <button class="top-btn" id="topBtn" onclick="scrollTop()">↑</button>
+</div>
+
+<script>
+const DATA = [
+  { cat: "👋 Приветствие", phrases: [
+    ["Serdecznie witamy!", "Сэрдэчне витамы!", "Добро пожаловать!"],
+    ["Dzień dobry!", "Джень до́бры!", "Добрый день!"],
+    ["Cześć! Mogę pomóc?", "Чэщчь! Могэ́ помуць?", "Привет! Могу помочь?"],
+    ["Proszę się rozejrzeć!", "Про́шэ ще розэйжэчь!", "Осмотритесь, пожалуйста!"],
+    ["Witamy w naszym sklepie!", "Вита́мы в на́шым скле́пе!", "Добро пожаловать в наш магазин!"],
+    ["Miło, że Państwo wpadli!", "Ми́ло, жэ па́ньстфо фпа́дли!", "Рады, что вы зашли!"],
+    ["Proszę wejść!", "Про́шэ вэйщчь!", "Заходите!"],
+  ]},
+  { cat: "🍬 Сладости", phrases: [
+    ["Chcą Państwo spróbować?", "Хцо́н па́ньстфо спрубо́вачь?", "Хотите попробовать?"],
+    ["To jest turecki rachat łukum.", "То ест туре́цки раха́т вуку́м.", "Это турецкий рахат-лукум."],
+    ["Wszystko jest świeże i ręcznie robione.", "Фшы́стко ест щфе́жэ и рэ́нчне робё́нэ.", "Всё свежее и ручной работы."],
+    ["Mamy wiele smaków.", "Ма́мы ве́ле сма́куф.", "У нас много вкусов."],
+    ["Z pistacjami, orzechami lub kokosem.", "С писта́цьями, ожэ́хами люб ко́косэм.", "С фисташками, орехами или кокосом."],
+    ["To jest baklawa — bardzo popularna!", "То ест бакла́ва — ба́рдзо попула́рна!", "Это баклава — очень популярна!"],
+    ["Proszę spróbować za darmo!", "Про́шэ спрубо́вачь за да́рмо!", "Попробуйте бесплатно!"],
+    ["Ten słodycz jest bez cukru.", "Тэн сво́дыч ест бэз цу́кру.", "Эта сладость без сахара."],
+    ["To idealny prezent.", "То идэа́лны прэ́зэнт.", "Это идеальный подарок."],
+    ["Opakowanie utrzymuje świeżość dwa tygodnie.", "Опакова́не утшы́муе щфе́жощчь два тыго́дне.", "Упаковка сохраняет свежесть 2 недели."],
+    ["Zapakujemy ładnie na prezent.", "Запаку́емы ва́дне на прэ́зэнт.", "Мы красиво упакуем как подарок."],
+    ["Chcą Państwo pudełko mieszane?", "Хцо́н па́ньстфо пудэ́вко мешша́нэ?", "Хотите ассорти-коробку?"],
+  ]},
+  { cat: "🍵 Чай и кофе", phrases: [
+    ["Chcą Państwo turecką herbatę?", "Хцо́н па́ньстфо турэ́цко́н хэрба́тэ?", "Хотите турецкий чай?"],
+    ["Mamy wiele rodzajów herbaty.", "Ма́мы ве́ле родза́юф хэрба́ты.", "У нас много сортов чая."],
+    ["To herbata z granatu — bardzo zdrowa.", "То хэрба́та з грана́ту — ба́рдзо здро́ва.", "Это гранатовый чай — очень полезный."],
+    ["Herbata jabłkowa jest bardzo popularna w Polsce.", "Хэрба́та ябвко́ва ест ба́рдзо попула́рна в По́льсцэ.", "Яблочный чай очень популярен в Польше."],
+    ["Wystarczy zalać gorącą wodą.", "Выста́рчы зала́чь горо́нцо́н водо́н.", "Просто залейте горячей водой."],
+    ["Ta herbata pomaga schudnąć.", "Та хэрба́та пома́га схудно́нчь.", "Этот чай помогает похудеть."],
+    ["Kawa turecka — oryginalnie mielona.", "Ка́ва туре́цка — оригина́льне мело́на.", "Турецкий кофе — оригинальный помол."],
+    ["Chcą Państwo filiżankę na próbę?", "Хцо́н па́ньстфо филижа́нкэ на пру́бэ?", "Хотите чашечку на пробу?"],
+    ["Ta herbata jest dobra na żołądek.", "Та хэрба́та ест до́бра на жово́ндэк.", "Этот чай полезен для желудка."],
+    ["Herbata w proszku — rozpuszcza się od razu.", "Хэрба́та ф про́шку — роспу́щча ще од ра́зу.", "Порошковый чай — растворяется сразу."],
+  ]},
+  { cat: "🎁 Сувениры", phrases: [
+    ["To jest ręcznie robione.", "То ест рэ́нчне робё́нэ.", "Это ручная работа."],
+    ["Piękna pamiątka z Turcji.", "Пе́нкна памё́нтка с Ту́рцьи.", "Красивый сувенир из Турции."],
+    ["Mamy magnesy na lodówkę.", "Ма́мы магнэ́сы на лёду́фкэ.", "У нас есть магниты на холодильник."],
+    ["Proszę zobaczyć tę ceramikę!", "Про́шэ зоба́чычь тэ цэра́микэ!", "Посмотрите эту керамику!"],
+    ["Oko chroni przed złem.", "О́ко хро́ни пшэд звэм.", "Глаз защищает от злого."],
+    ["To jest Nazar — turecki symbol.", "То ест На́зар — туре́цки сы́мболь.", "Это назар — турецкий символ."],
+    ["Dla rodziny czy przyjaciół?", "Для родзи́ны чы пшыя́чув?", "Для семьи или друзей?"],
+    ["Mamy małe i duże rozmiary.", "Ма́мы ма́вэ и ду́жэ розмя́ры.", "У нас маленькие и большие размеры."],
+  ]},
+  { cat: "💍 Украшения", phrases: [
+    ["To jest stal nierdzewna — nie rdzewieje.", "То ест сталь нерджэ́вна — не рджэве́е.", "Это нержавеющая сталь — не ржавеет."],
+    ["Prawdziwe srebro, próba 925.", "Правджи́вэ срэ́бро, пру́ба дэвеньчо́н два́джещча пеньчь.", "Настоящее серебро, проба 925."],
+    ["Ta bransoletka pasuje do wszystkiego.", "Та бранолэ́тка пасу́е до фшы́сткего.", "Этот браслет подходит ко всему."],
+    ["Bransoletki na nogę są teraz modne.", "Бранолэ́тки на но́гэ со́н тэра́з мо́днэ.", "Браслеты на ногу сейчас в моде."],
+    ["Chcą Państwo przymierzyć?", "Хцо́н па́ньстфо пшыме́жычь?", "Хотите примерить?"],
+    ["To się nie odbarwia.", "То ще не одба́рвя.", "Это не меняет цвет."],
+    ["Mamy też naszyjniki.", "Ма́мы тэш нашы́йники.", "У нас есть и ожерелья."],
+    ["Trzy sztuki w cenie dwóch!", "Тши шту́ки ф цэ́не двух!", "Три штуки по цене двух!"],
+    ["Świetny prezent dla kobiety.", "Щфе́тны прэ́зэнт для кобе́ты.", "Отличный подарок для женщины."],
+    ["Jaki kolor się Państwu podoba?", "Я́ки ко́лёр ще па́ньстфу подо́ба?", "Какой цвет вам нравится?"],
+  ]},
+  { cat: "💰 Цена и торг", phrases: [
+    ["To kosztuje tylko ... euro.", "То кошту́е ты́лько ... э́уро.", "Это стоит всего ... евро."],
+    ["Dam Państwu dobrą cenę.", "Дам па́ньстфу до́бро́н цэ́нэ.", "Я сделаю вам хорошую цену."],
+    ["Jeśli wezmą Państwo więcej, będzie taniej.", "Е́щли вэзмо́н па́ньстфо ве́нцэй, бэ́ндже та́ней.", "Если возьмёте больше, будет дешевле."],
+    ["To już najlepsza cena.", "То юш найлэ́пша цэ́на.", "Это уже лучшая цена."],
+    ["Specjalna cena tylko dla Państwa!", "Спэцья́льна цэ́на ты́лько для па́ньстфа!", "Специальная цена только для вас!"],
+    ["Dwa za ... euro — oferta!", "Два за ... э́уро — офэ́рта!", "Два за ... евро — предложение!"],
+    ["To jest bardzo dobra jakość.", "То ест ба́рдзо до́бра я́кощчь.", "Это очень хорошее качество."],
+    ["Taniej tego Państwo nigdzie nie znajdą.", "Та́ней тэ́го па́ньстфо нигдже не зна́йдо́н.", "Дешевле вы это нигде не найдёте."],
+    ["Dobrze, dam Państwu rabat.", "До́бжэ, дам па́ньстфу ра́бат.", "Ладно, я дам вам скидку."],
+    ["Cena rodzinna — wszystko razem za ...", "Цэ́на родзи́нна — фшы́стко ра́зэм за ...", "Семейная цена — всё вместе за ..."],
+  ]},
+  { cat: "💳 Оплата", phrases: [
+    ["Gotówka czy karta?", "Готу́фка чы ка́рта?", "Наличные или картой?"],
+    ["Przyjmujemy euro i liry.", "Пшыйму́емы э́уро и ли́ры.", "Мы принимаем евро и лиры."],
+    ["Karta kredytowa też jest w porządku.", "Ка́рта крэды́това тэш ест ф поржо́ндку.", "Кредитная карта тоже подойдёт."],
+    ["Chcą Państwo torebkę?", "Хцо́н па́ньстфо торэ́бкэ?", "Хотите пакет?"],
+    ["Oto reszta.", "О́то рэ́шта.", "Вот ваша сдача."],
+    ["Potrzebują Państwo paragon?", "Потшэбу́ён па́ньстфо пара́гон?", "Вам нужен чек?"],
+    ["Dolary też przyjmujemy.", "До́ляры тэш пшыйму́емы.", "Доллары тоже принимаем."],
+    ["Złotówki niestety nie przyjmujemy.", "Звоту́фки нестэ́ты не пшыйму́емы.", "Злотые, к сожалению, не принимаем."],
+  ]},
+  { cat: "📦 Доставка и упаковка", phrases: [
+    ["Zapakować?", "Запакова́чь?", "Завернуть?"],
+    ["Zapakuję bezpiecznie do walizki.", "Запаку́е бэспе́чне до вали́зки.", "Я упакую надёжно для чемодана."],
+    ["To się zmieści w bagażu podręcznym.", "То ще змещчи́ в бага́жу подрэ́нчным.", "Это поместится в ручную кладь."],
+    ["Możemy wysłać pocztą.", "Мо́жэмы вы́свачь по́чтон.", "Мы можем отправить по почте."],
+    ["Proszę się nie martwić, bezpiecznie zapakowane.", "Про́шэ ще не ма́ртфичь, бэспе́чне запакова́нэ.", "Не волнуйтесь, упаковано надёжно."],
+  ]},
+  { cat: "🗣 Общение", phrases: [
+    ["Skąd Państwo są?", "Сконд па́ньстфо со́н?", "Откуда вы?"],
+    ["Z Polski? Wspaniale!", "С По́льски? Фспане́але!", "Из Польши? Прекрасно!"],
+    ["Są Państwo pierwszy raz w Antalyi?", "Со́н па́ньстфо пе́рфшы рас в Анта́льи?", "Вы впервые в Анталье?"],
+    ["Jak się Państwo nazywają?", "Як ще па́ньстфо называ́ён?", "Как вас зовут?"],
+    ["Podoba się Państwu Turcja?", "Подо́ба ще па́ньстфу Ту́рцья?", "Вам нравится Турция?"],
+    ["Jak długo Państwo zostają?", "Як дву́го па́ньстфо зоста́ён?", "Как долго вы здесь?"],
+    ["W jakim hotelu Państwo mieszkają?", "В я́ким хотэ́лю па́ньстфо мешка́ён?", "В каком отеле вы живёте?"],
+    ["Miłego urlopu!", "Ми́вэго у́рлёпу!", "Хорошего отпуска!"],
+    ["Polska i Turcja — przyjaciele!", "По́льска и Ту́рцья — пшыя́челе!", "Польша и Турция — друзья!"],
+    ["Mówię trochę po polsku.", "Му́ве тро́хэ по по́льску.", "Я немного говорю по-польски."],
+  ]},
+  { cat: "🤝 Убеждение", phrases: [
+    ["Nie pożałują Państwo!", "Не пожаву́ён па́ньстфо!", "Вы не пожалеете!"],
+    ["To kupują wszyscy turyści.", "То купу́ён фшы́сцы туры́щчи.", "Это покупают все туристы."],
+    ["Idealny na prezent z podróży!", "Идэа́лны на прэ́зэнт с подру́жы!", "Идеально как подарок из поездки!"],
+    ["Żona się ucieszy!", "Жо́на ще учэ́шы!", "Жена будет рада!"],
+    ["Mąż się ucieszy!", "Монш ще учэ́шы!", "Муж будет рад!"],
+    ["Tego nie znajdą Państwo nigdzie indziej!", "Тэ́го не зна́йдо́н па́ньстфо нигдже и́нджей!", "Такое найдёте только здесь!"],
+    ["Proszę wziąć dwa — jedno na prezent!", "Про́шэ взёнчь два — е́дно на прэ́зэнт!", "Возьмите два — одно как подарок!"],
+    ["To nasz bestseller!", "То наш бэстсэ́ллер!", "Это наш бестселлер!"],
+    ["Proszę brać, póki jest!", "Про́шэ бра́чь, пу́ки ест!", "Берите, пока есть!"],
+    ["Ostatnie sztuki!", "Оста́тне шту́ки!", "Последние штуки!"],
+  ]},
+  { cat: "👋 Прощание", phrases: [
+    ["Dziękuję bardzo za zakupy!", "Джеку́е ба́рдзо за заку́пы!", "Большое спасибо за покупку!"],
+    ["Zapraszamy ponownie!", "Запра́шамы поно́вне!", "Приходите ещё!"],
+    ["Miłego dnia!", "Ми́вэго дня!", "Хорошего дня!"],
+    ["Miłego urlopu!", "Ми́вэго у́рлёпу!", "Хорошего отпуска!"],
+    ["Szczęśliwej podróży!", "Щэнщли́вэй подру́жы!", "Счастливого пути!"],
+    ["Do widzenia!", "До видзэ́ня!", "До свидания!"],
+    ["Cześć!", "Чэщчь!", "Пока!"],
+    ["Proszę powiedzieć znajomym!", "Про́шэ пове́джечь знаё́мым!", "Расскажите друзьям!"],
+    ["Jesteśmy tu codziennie!", "Есте́щмы ту цодже́нне!", "Мы здесь каждый день!"],
+  ]},
+  { cat: "❓ Полезные фразы", phrases: [
+    ["Chwileczkę, proszę.", "Хфиле́чкэ, про́шэ.", "Одну минуту, пожалуйста."],
+    ["Tak, oczywiście!", "Так, очыви́щче!", "Да, конечно!"],
+    ["Nie ma problemu!", "Не ма пробле́му!", "Без проблем!"],
+    ["Niestety, to się wyprzedało.", "Нестэ́ты, то ще выпшэда́во.", "К сожалению, это распродано."],
+    ["Pokażę Państwu coś innego.", "Пока́жэ па́ньстфу цощь и́ннэго.", "Я покажу вам кое-что другое."],
+    ["To jest zupełnie nowe!", "То ест зупэ́вне но́вэ!", "Это совсем новое!"],
+    ["Mówię trochę po polsku.", "Му́ве тро́хэ по по́льску.", "Я немного говорю по-польски."],
+    ["Mogę Państwu coś pokazać?", "Могэ́ па́ньстфу цощь пока́зачь?", "Можно вам кое-что показать?"],
+    ["Czego Państwo szukają?", "Чэ́го па́ньстфо шу́каён?", "Что вы ищете?"],
+    ["Dla siebie czy na prezent?", "Для ще́бе чы на прэ́зэнт?", "Для себя или в подарок?"],
+    ["Bez pośpiechu, proszę się rozglądać!", "Бэс пощпе́ху, про́шэ ще розглё́ндачь!", "Без спешки, смотрите спокойно!"],
+    ["Może coś do picia? Herbata, woda?", "Мо́жэ цощь до пи́ча? Хэрба́та, во́да?", "Хотите что-нибудь выпить? Чай, воду?"],
+    ["Chętnie pomogę.", "Хэ́нтне помогэ́.", "Я с радостью помогу."],
+  ]},
+];
+
+let currentCat = "all";
+
+function init() {
+  const catsEl = document.getElementById('cats');
+  let total = 0;
+  DATA.forEach(c => total += c.phrases.length);
+
+  let html = `<button class="cat-btn active" onclick="setCat('all')">Все (${total})</button>`;
+  DATA.forEach((c, i) => {
+    html += `<button class="cat-btn" onclick="setCat(${i})">${c.cat.split(' ')[0]} ${c.cat.split(' ').slice(1).join(' ')} (${c.phrases.length})</button>`;
+  });
+  catsEl.innerHTML = html;
+  render();
+}
+
+function setCat(c) {
+  currentCat = c;
+  document.querySelectorAll('.cat-btn').forEach((b, i) => {
+    b.classList.toggle('active', (c === 'all' && i === 0) || (c === i - 1));
+  });
+  document.getElementById('search').value = '';
+  render();
+}
+
+function render() {
+  const q = document.getElementById('search').value.toLowerCase().trim();
+  const listEl = document.getElementById('list');
+  let html = '';
+  let num = 0;
+
+  const cats = currentCat === 'all' ? DATA : [DATA[currentCat]];
+
+  cats.forEach(c => {
+    let catPhrases = '';
+    let count = 0;
+    c.phrases.forEach(p => {
+      const match = !q || p[0].toLowerCase().includes(q) || p[1].toLowerCase().includes(q) || p[2].toLowerCase().includes(q);
+      if (!match) return;
+      num++;
+      count++;
+      catPhrases += `<div class="phrase">
+        <div class="num">${num}</div>
+        <div class="de">${p[0]}</div>
+        <div class="tr">${p[1]}</div>
+        <div class="ru">${p[2]}</div>
+      </div>`;
+    });
+    if (count > 0) {
+      html += `<div class="cat-label">${c.cat} <span class="count-badge">${count}</span></div>` + catPhrases;
+    }
+  });
+
+  if (!html) {
+    html = '<div class="empty">Ничего не найдено 😕</div>';
+  }
+
+  listEl.innerHTML = html;
+  listEl.scrollTop = 0;
+}
+
+document.getElementById('search').addEventListener('input', render);
+
+document.getElementById('list').addEventListener('scroll', function() {
+  document.getElementById('topBtn').classList.toggle('show', this.scrollTop > 300);
+});
+
+function scrollTop() {
+  document.getElementById('list').scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+init();
+</script>
+
 </body>
 </html>
