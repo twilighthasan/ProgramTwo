@@ -6,21 +6,21 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>Bazaar Polski — Разговорник</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Nunito:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Nunito:wght@400;600;700;800&display=swap');
 
 :root {
-–bg: #1a1a1a;
-–card: #262626;
-–card-hover: #303030;
-–accent: #d4a04a;
-–accent2: #c4943e;
-–text: #e8e4e0;
-–text2: #8a8580;
-–trans: #d4a04a;
-–rus: #b0aba6;
-–cat-bg: #2a2a2a;
-–shadow: 0 2px 12px rgba(0,0,0,.3);
-color-scheme: dark;
+–bg: #faf8f5;
+–card: #ffffff;
+–card-active: #f0ece6;
+–accent: #c8702a;
+–accent-light: #fdf0e2;
+–accent-dark: #a85a1a;
+–text: #1a1a1a;
+–text2: #666;
+–trans: #b35c10;
+–rus: #555;
+–border: #e8e2da;
+–shadow: 0 2px 8px rgba(0,0,0,.06);
 }
 
 - { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
@@ -44,58 +44,60 @@ height: 100dvh;
 
 .header {
 flex-shrink: 0;
-padding: 14px 16px 10px;
-background: #222;
-border-bottom: 1px solid #333;
+padding: 18px 16px 14px;
+background: linear-gradient(135deg, #c8702a 0%, #e89040 50%, #d4803a 100%);
 text-align: center;
 }
 .header h1 {
 font-family: ‘Playfair Display’, serif;
-font-size: 22px;
-color: var(–accent);
+font-size: 26px;
+color: #fff;
 letter-spacing: 1px;
+text-shadow: 0 1px 3px rgba(0,0,0,.2);
 }
 .header .sub {
-font-size: 11px;
-color: var(–text2);
+font-size: 13px;
+color: rgba(255,255,255,.85);
 margin-top: 3px;
+font-weight: 600;
 }
 
 .search-wrap {
 flex-shrink: 0;
-padding: 8px 12px;
+padding: 10px 14px;
 background: var(–bg);
 position: relative;
 }
 .search-wrap input {
 width: 100%;
-padding: 10px 14px 10px 38px;
-border-radius: 20px;
-border: 1px solid #3a3a3a;
-background: #2a2a2a;
+padding: 12px 16px 12px 42px;
+border-radius: 14px;
+border: 2px solid var(–border);
+background: #fff;
 color: var(–text);
-font-size: 15px;
+font-size: 17px;
 font-family: ‘Nunito’, sans-serif;
+font-weight: 600;
 outline: none;
 transition: border-color .2s;
 }
 .search-wrap input:focus { border-color: var(–accent); }
-.search-wrap input::placeholder { color: #666; }
+.search-wrap input::placeholder { color: #aaa; font-weight: 400; }
 .search-wrap .icon {
 position: absolute;
-left: 24px;
+left: 28px;
 top: 50%;
 transform: translateY(-50%);
-color: var(–text2);
-font-size: 16px;
+color: #aaa;
+font-size: 18px;
 pointer-events: none;
 }
 
 .cats {
 flex-shrink: 0;
 display: flex;
-gap: 6px;
-padding: 4px 12px 8px;
+gap: 8px;
+padding: 4px 14px 10px;
 overflow-x: auto;
 -webkit-overflow-scrolling: touch;
 scrollbar-width: none;
@@ -103,13 +105,13 @@ scrollbar-width: none;
 .cats::-webkit-scrollbar { display:none; }
 .cat-btn {
 flex-shrink: 0;
-padding: 7px 14px;
-border-radius: 20px;
-border: 1px solid #3a3a3a;
-background: #2a2a2a;
-color: #999;
-font-size: 12px;
-font-weight: 600;
+padding: 8px 16px;
+border-radius: 22px;
+border: 2px solid var(–border);
+background: #fff;
+color: var(–text2);
+font-size: 14px;
+font-weight: 700;
 cursor: pointer;
 transition: all .2s;
 white-space: nowrap;
@@ -117,103 +119,106 @@ font-family: ‘Nunito’, sans-serif;
 }
 .cat-btn.active {
 background: var(–accent);
-color: #1a1a1a;
+color: #fff;
 border-color: var(–accent);
-font-weight: 700;
 }
 
 .list {
 flex: 1;
 overflow-y: auto;
 -webkit-overflow-scrolling: touch;
-padding: 0 12px 80px;
+padding: 0 14px 90px;
 }
 
 .phrase {
-background: #2a2a2a;
-border-radius: 12px;
-padding: 12px 14px;
-margin-bottom: 8px;
-border-left: 3px solid var(–accent);
+background: var(–card);
+border-radius: 16px;
+padding: 16px 18px;
+margin-bottom: 10px;
+border-left: 4px solid var(–accent);
+box-shadow: var(–shadow);
 transition: background .15s;
 position: relative;
 }
-.phrase:active { background: #333; }
+.phrase:active { background: var(–card-active); }
 
 .phrase .num {
 position: absolute;
-top: 8px;
-right: 12px;
-font-size: 10px;
-color: var(–text2);
-opacity: .5;
+top: 10px;
+right: 14px;
+font-size: 12px;
+color: #bbb;
+font-weight: 700;
 }
 
 .phrase .de {
-font-size: 16px;
-font-weight: 700;
+font-size: 19px;
+font-weight: 800;
 color: var(–text);
-line-height: 1.3;
-margin-bottom: 4px;
+line-height: 1.35;
+margin-bottom: 6px;
 padding-right: 30px;
 }
 
 .phrase .tr {
-font-size: 14px;
+font-size: 17px;
 color: var(–trans);
-line-height: 1.3;
-margin-bottom: 3px;
+line-height: 1.35;
+margin-bottom: 5px;
+font-weight: 700;
 font-style: italic;
 }
 
 .phrase .ru {
-font-size: 13px;
+font-size: 16px;
 color: var(–rus);
-line-height: 1.3;
+line-height: 1.35;
+font-weight: 600;
 }
 
 .cat-label {
 font-family: ‘Playfair Display’, serif;
-font-size: 15px;
-color: var(–accent);
-padding: 14px 0 6px;
-border-bottom: 1px solid #333;
-margin-bottom: 8px;
+font-size: 18px;
+font-weight: 800;
+color: var(–accent-dark);
+padding: 16px 0 8px;
+border-bottom: 2px solid var(–border);
+margin-bottom: 10px;
 display: flex;
 align-items: center;
-gap: 8px;
+gap: 10px;
 }
 
 .count-badge {
 background: var(–accent);
-color: #1a1a1a;
+color: #fff;
 font-family: ‘Nunito’, sans-serif;
-font-size: 11px;
-font-weight: 700;
-padding: 1px 8px;
-border-radius: 10px;
+font-size: 12px;
+font-weight: 800;
+padding: 2px 10px;
+border-radius: 12px;
 }
 
 .empty {
 text-align: center;
-padding: 40px 20px;
+padding: 50px 20px;
 color: var(–text2);
-font-size: 14px;
+font-size: 17px;
 }
 
 .top-btn {
 position: fixed;
-bottom: 20px;
-right: 16px;
-width: 44px;
-height: 44px;
+bottom: 24px;
+right: 18px;
+width: 48px;
+height: 48px;
 border-radius: 50%;
 background: var(–accent);
-color: #1a1a1a;
+color: #fff;
 border: none;
-font-size: 20px;
-font-weight: 700;
-box-shadow: var(–shadow);
+font-size: 22px;
+font-weight: 800;
+box-shadow: 0 3px 12px rgba(200,112,42,.35);
 cursor: pointer;
 display: none;
 align-items: center;
@@ -323,7 +328,7 @@ const DATA = [
     ["Dolary też przyjmujemy.", "До́ляры тэш пшыйму́емы.", "Доллары тоже принимаем."],
     ["Złotówki niestety nie przyjmujemy.", "Звоту́фки нестэ́ты не пшыйму́емы.", "Злотые, к сожалению, не принимаем."],
   ]},
-  { cat: "📦 Доставка и упаковка", phrases: [
+  { cat: "📦 Упаковка", phrases: [
     ["Zapakować?", "Запакова́чь?", "Завернуть?"],
     ["Zapakuję bezpiecznie do walizki.", "Запаку́е бэспе́чне до вали́зки.", "Я упакую надёжно для чемодана."],
     ["To się zmieści w bagażu podręcznym.", "То ще змещчи́ в бага́жу подрэ́нчным.", "Это поместится в ручную кладь."],
