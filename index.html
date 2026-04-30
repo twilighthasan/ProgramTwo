@@ -4,460 +4,554 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>Bazaar Polski — Разговорник</title>
+<title>Çitello — Прайс-лист</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Nunito:wght@400;600;700;800&display=swap');
+  :root {
+    --bg: #0f0e0c;
+    --card: #1a1814;
+    --border: #2e2a22;
+    --gold: #c9954a;
+    --gold2: #e8c070;
+    --text: #f0ead8;
+    --muted: #8a8070;
+    --red: #c0392b;
+    --green: #27ae60;
+    --tag-bg: #252018;
+  }
 
-:root {
-–bg: #faf8f5;
-–card: #ffffff;
-–card-active: #f0ece6;
-–accent: #c8702a;
-–accent-light: #fdf0e2;
-–accent-dark: #a85a1a;
-–text: #1a1a1a;
-–text2: #666;
-–trans: #b35c10;
-–rus: #555;
-–border: #e8e2da;
-–shadow: 0 2px 8px rgba(0,0,0,.06);
-}
+- { box-sizing: border-box; margin: 0; padding: 0; }
 
-- { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-
-html, body {
-width:100%; height:100%;
+body {
 background: var(–bg);
 color: var(–text);
 font-family: ‘Nunito’, sans-serif;
-overflow: hidden;
-touch-action: manipulation;
--webkit-font-smoothing: antialiased;
+min-height: 100vh;
+padding: 0 0 40px 0;
 }
 
-.app {
-display: flex;
-flex-direction: column;
-height: 100vh;
-height: 100dvh;
-}
-
+/* HEADER */
 .header {
-flex-shrink: 0;
-padding: 18px 16px 14px;
-background: linear-gradient(135deg, #c8702a 0%, #e89040 50%, #d4803a 100%);
+background: linear-gradient(135deg, #1a1510 0%, #2a1f0e 50%, #1a1510 100%);
+border-bottom: 2px solid var(–gold);
+padding: 28px 20px 20px;
 text-align: center;
-}
-.header h1 {
-font-family: ‘Playfair Display’, serif;
-font-size: 26px;
-color: #fff;
-letter-spacing: 1px;
-text-shadow: 0 1px 3px rgba(0,0,0,.2);
-}
-.header .sub {
-font-size: 13px;
-color: rgba(255,255,255,.85);
-margin-top: 3px;
-font-weight: 600;
+position: sticky;
+top: 0;
+z-index: 100;
+box-shadow: 0 4px 30px rgba(0,0,0,0.6);
 }
 
+.header-brand {
+font-family: ‘Playfair Display’, serif;
+font-size: 2.2rem;
+font-weight: 900;
+letter-spacing: 0.1em;
+background: linear-gradient(135deg, var(–gold), var(–gold2), var(–gold));
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+text-transform: uppercase;
+}
+
+.header-sub {
+font-size: 0.75rem;
+color: var(–muted);
+letter-spacing: 0.25em;
+text-transform: uppercase;
+margin-top: 4px;
+}
+
+/* SEARCH */
 .search-wrap {
-flex-shrink: 0;
-padding: 10px 14px;
+padding: 16px 16px 8px;
+position: sticky;
+top: 86px;
+z-index: 99;
 background: var(–bg);
-position: relative;
 }
-.search-wrap input {
+
+.search-input {
 width: 100%;
+background: var(–card);
+border: 1.5px solid var(–border);
+border-radius: 12px;
 padding: 12px 16px 12px 42px;
-border-radius: 14px;
-border: 2px solid var(–border);
-background: #fff;
 color: var(–text);
-font-size: 17px;
 font-family: ‘Nunito’, sans-serif;
-font-weight: 600;
+font-size: 0.95rem;
 outline: none;
-transition: border-color .2s;
+transition: border-color 0.2s;
 }
-.search-wrap input:focus { border-color: var(–accent); }
-.search-wrap input::placeholder { color: #aaa; font-weight: 400; }
-.search-wrap .icon {
+
+.search-input:focus { border-color: var(–gold); }
+.search-input::placeholder { color: var(–muted); }
+
+.search-icon {
 position: absolute;
 left: 28px;
 top: 50%;
 transform: translateY(-50%);
-color: #aaa;
-font-size: 18px;
+color: var(–muted);
+font-size: 1rem;
 pointer-events: none;
 }
 
-.cats {
-flex-shrink: 0;
+/* CATEGORY TABS */
+.tabs-wrap {
+padding: 10px 0 6px 16px;
 display: flex;
 gap: 8px;
-padding: 4px 14px 10px;
 overflow-x: auto;
--webkit-overflow-scrolling: touch;
 scrollbar-width: none;
 }
-.cats::-webkit-scrollbar { display:none; }
-.cat-btn {
-flex-shrink: 0;
-padding: 8px 16px;
-border-radius: 22px;
-border: 2px solid var(–border);
-background: #fff;
-color: var(–text2);
-font-size: 14px;
-font-weight: 700;
-cursor: pointer;
-transition: all .2s;
+.tabs-wrap::-webkit-scrollbar { display: none; }
+
+.tab {
 white-space: nowrap;
-font-family: ‘Nunito’, sans-serif;
-}
-.cat-btn.active {
-background: var(–accent);
-color: #fff;
-border-color: var(–accent);
-}
-
-.list {
-flex: 1;
-overflow-y: auto;
--webkit-overflow-scrolling: touch;
-padding: 0 14px 90px;
-}
-
-.phrase {
+padding: 7px 16px;
+border-radius: 20px;
+border: 1.5px solid var(–border);
 background: var(–card);
-border-radius: 16px;
-padding: 16px 18px;
-margin-bottom: 10px;
-border-left: 4px solid var(–accent);
-box-shadow: var(–shadow);
-transition: background .15s;
-position: relative;
-}
-.phrase:active { background: var(–card-active); }
-
-.phrase .num {
-position: absolute;
-top: 10px;
-right: 14px;
-font-size: 12px;
-color: #bbb;
-font-weight: 700;
-}
-
-.phrase .de {
-font-size: 19px;
-font-weight: 800;
-color: var(–text);
-line-height: 1.35;
-margin-bottom: 6px;
-padding-right: 30px;
-}
-
-.phrase .tr {
-font-size: 17px;
-color: var(–trans);
-line-height: 1.35;
-margin-bottom: 5px;
-font-weight: 700;
-font-style: italic;
-}
-
-.phrase .ru {
-font-size: 16px;
-color: var(–rus);
-line-height: 1.35;
+color: var(–muted);
+font-size: 0.78rem;
 font-weight: 600;
+cursor: pointer;
+transition: all 0.2s;
+touch-action: manipulation;
+letter-spacing: 0.04em;
 }
 
-.cat-label {
-font-family: ‘Playfair Display’, serif;
-font-size: 18px;
-font-weight: 800;
-color: var(–accent-dark);
-padding: 16px 0 8px;
-border-bottom: 2px solid var(–border);
-margin-bottom: 10px;
+.tab.active {
+background: var(–gold);
+border-color: var(–gold);
+color: #1a1510;
+}
+
+/* STATS BAR */
+.stats-bar {
+display: flex;
+gap: 12px;
+padding: 8px 16px 12px;
+overflow-x: auto;
+scrollbar-width: none;
+}
+.stats-bar::-webkit-scrollbar { display: none; }
+
+.stat-chip {
+flex-shrink: 0;
+background: var(–tag-bg);
+border: 1px solid var(–border);
+border-radius: 8px;
+padding: 6px 12px;
+font-size: 0.72rem;
+color: var(–muted);
+}
+
+.stat-chip strong { color: var(–gold2); font-size: 0.85rem; }
+
+/* PRODUCT LIST */
+.list {
+padding: 0 12px;
+display: flex;
+flex-direction: column;
+gap: 8px;
+}
+
+/* SECTION HEADER */
+.section-header {
 display: flex;
 align-items: center;
 gap: 10px;
+padding: 16px 4px 6px;
 }
 
-.count-badge {
-background: var(–accent);
-color: #fff;
-font-family: ‘Nunito’, sans-serif;
-font-size: 12px;
-font-weight: 800;
-padding: 2px 10px;
-border-radius: 12px;
+.section-title {
+font-family: ‘Playfair Display’, serif;
+font-size: 1rem;
+color: var(–gold2);
+font-weight: 700;
+letter-spacing: 0.05em;
 }
 
-.empty {
-text-align: center;
-padding: 50px 20px;
-color: var(–text2);
-font-size: 17px;
+.section-line {
+flex: 1;
+height: 1px;
+background: var(–border);
 }
 
-.top-btn {
-position: fixed;
-bottom: 24px;
-right: 18px;
-width: 48px;
-height: 48px;
-border-radius: 50%;
-background: var(–accent);
-color: #fff;
-border: none;
-font-size: 22px;
-font-weight: 800;
-box-shadow: 0 3px 12px rgba(200,112,42,.35);
-cursor: pointer;
-display: none;
+/* PRODUCT CARD */
+.card {
+background: var(–card);
+border: 1px solid var(–border);
+border-radius: 14px;
+padding: 12px 14px;
+display: flex;
 align-items: center;
-justify-content: center;
-z-index: 10;
+gap: 12px;
+transition: border-color 0.2s, transform 0.15s;
 touch-action: manipulation;
 }
-.top-btn.show { display: flex; }
+
+.card:active { transform: scale(0.98); }
+
+.card-icon {
+width: 44px;
+height: 44px;
+border-radius: 10px;
+background: var(–tag-bg);
+border: 1px solid var(–border);
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 1.4rem;
+flex-shrink: 0;
+}
+
+.card-info {
+flex: 1;
+min-width: 0;
+}
+
+.card-name {
+font-size: 0.82rem;
+font-weight: 700;
+color: var(–text);
+line-height: 1.3;
+white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;
+}
+
+.card-meta {
+display: flex;
+align-items: center;
+gap: 6px;
+margin-top: 4px;
+}
+
+.card-code {
+font-size: 0.68rem;
+color: var(–muted);
+background: var(–tag-bg);
+border: 1px solid var(–border);
+padding: 2px 7px;
+border-radius: 5px;
+font-weight: 600;
+}
+
+.card-size {
+font-size: 0.68rem;
+color: var(–muted);
+}
+
+.card-price-wrap {
+text-align: right;
+flex-shrink: 0;
+}
+
+.price-converted {
+font-family: ‘Playfair Display’, serif;
+font-size: 1.35rem;
+font-weight: 900;
+color: var(–gold2);
+line-height: 1;
+}
+
+.price-currency {
+font-size: 0.7rem;
+font-weight: 700;
+color: var(–gold);
+display: block;
+letter-spacing: 0.05em;
+margin-top: 2px;
+}
+
+.price-original {
+font-size: 0.65rem;
+color: var(–muted);
+margin-top: 2px;
+}
+
+/* NO RESULTS */
+.no-results {
+text-align: center;
+padding: 50px 20px;
+color: var(–muted);
+font-size: 0.9rem;
+}
+
+.no-results span { font-size: 2rem; display: block; margin-bottom: 10px; }
+
+/* HIDDEN */
+.hidden { display: none !important; }
+
+/* COUNT BADGE */
+.count-badge {
+display: inline-block;
+background: var(–border);
+color: var(–muted);
+border-radius: 10px;
+padding: 1px 8px;
+font-size: 0.68rem;
+font-weight: 700;
+margin-left: 4px;
+}
+
+.footer {
+text-align: center;
+padding: 24px;
+color: var(–muted);
+font-size: 0.72rem;
+letter-spacing: 0.08em;
+text-transform: uppercase;
+}
 </style>
 
 </head>
 <body>
-<div class="app">
-  <div class="header">
-    <h1>🕌 Bazaar Polski</h1>
-    <div class="sub">Разговорник продавца · Польский</div>
-  </div>
 
-  <div class="search-wrap">
-    <span class="icon">🔍</span>
-    <input type="text" id="search" placeholder="Поиск фразы..." autocomplete="off">
-  </div>
-
-  <div class="cats" id="cats"></div>
-  <div class="list" id="list"></div>
-  <button class="top-btn" id="topBtn" onclick="scrollTop()">↑</button>
+<div class="header">
+  <div class="header-brand">Çitello</div>
+  <div class="header-sub">Прайс-лист · цены в €</div>
 </div>
 
+<div class="search-wrap" style="position:relative;">
+  <span class="search-icon">🔍</span>
+  <input class="search-input" type="text" id="searchInput" placeholder="Поиск по названию или коду..." oninput="filterProducts()">
+</div>
+
+<div class="tabs-wrap" id="tabsWrap">
+  <button class="tab active" onclick="filterCategory('all', this)">Все</button>
+  <button class="tab" onclick="filterCategory('nut', this)">🥜 Орехи</button>
+  <button class="tab" onclick="filterCategory('seed', this)">🌻 Семечки</button>
+  <button class="tab" onclick="filterCategory('dry', this)">🍇 Сухофрукты</button>
+  <button class="tab" onclick="filterCategory('snack', this)">🍿 Снеки</button>
+  <button class="tab" onclick="filterCategory('mix', this)">🎯 Миксы</button>
+</div>
+
+<div class="stats-bar" id="statsBar"></div>
+
+<div class="list" id="productList"></div>
+
+<div class="no-results hidden" id="noResults">
+  <span>🔎</span>
+  Ничего не найдено
+</div>
+
+<div class="footer">Çitello · Все цены в евро (€)</div>
+
 <script>
-const DATA = [
-  { cat: "👋 Приветствие", phrases: [
-    ["Serdecznie witamy!", "Сэрдэчне витамы!", "Добро пожаловать!"],
-    ["Dzień dobry!", "Джень до́бры!", "Добрый день!"],
-    ["Cześć! Mogę pomóc?", "Чэщчь! Могэ́ помуць?", "Привет! Могу помочь?"],
-    ["Proszę się rozejrzeć!", "Про́шэ ще розэйжэчь!", "Осмотритесь, пожалуйста!"],
-    ["Witamy w naszym sklepie!", "Вита́мы в на́шым скле́пе!", "Добро пожаловать в наш магазин!"],
-    ["Miło, że Państwo wpadli!", "Ми́ло, жэ па́ньстфо фпа́дли!", "Рады, что вы зашли!"],
-    ["Proszę wejść!", "Про́шэ вэйщчь!", "Заходите!"],
-  ]},
-  { cat: "🍬 Сладости", phrases: [
-    ["Chcą Państwo spróbować?", "Хцо́н па́ньстфо спрубо́вачь?", "Хотите попробовать?"],
-    ["To jest turecki rachat łukum.", "То ест туре́цки раха́т вуку́м.", "Это турецкий рахат-лукум."],
-    ["Wszystko jest świeże i ręcznie robione.", "Фшы́стко ест щфе́жэ и рэ́нчне робё́нэ.", "Всё свежее и ручной работы."],
-    ["Mamy wiele smaków.", "Ма́мы ве́ле сма́куф.", "У нас много вкусов."],
-    ["Z pistacjami, orzechami lub kokosem.", "С писта́цьями, ожэ́хами люб ко́косэм.", "С фисташками, орехами или кокосом."],
-    ["To jest baklawa — bardzo popularna!", "То ест бакла́ва — ба́рдзо попула́рна!", "Это баклава — очень популярна!"],
-    ["Proszę spróbować za darmo!", "Про́шэ спрубо́вачь за да́рмо!", "Попробуйте бесплатно!"],
-    ["Ten słodycz jest bez cukru.", "Тэн сво́дыч ест бэз цу́кру.", "Эта сладость без сахара."],
-    ["To idealny prezent.", "То идэа́лны прэ́зэнт.", "Это идеальный подарок."],
-    ["Opakowanie utrzymuje świeżość dwa tygodnie.", "Опакова́не утшы́муе щфе́жощчь два тыго́дне.", "Упаковка сохраняет свежесть 2 недели."],
-    ["Zapakujemy ładnie na prezent.", "Запаку́емы ва́дне на прэ́зэнт.", "Мы красиво упакуем как подарок."],
-    ["Chcą Państwo pudełko mieszane?", "Хцо́н па́ньстфо пудэ́вко мешша́нэ?", "Хотите ассорти-коробку?"],
-  ]},
-  { cat: "🍵 Чай и кофе", phrases: [
-    ["Chcą Państwo turecką herbatę?", "Хцо́н па́ньстфо турэ́цко́н хэрба́тэ?", "Хотите турецкий чай?"],
-    ["Mamy wiele rodzajów herbaty.", "Ма́мы ве́ле родза́юф хэрба́ты.", "У нас много сортов чая."],
-    ["To herbata z granatu — bardzo zdrowa.", "То хэрба́та з грана́ту — ба́рдзо здро́ва.", "Это гранатовый чай — очень полезный."],
-    ["Herbata jabłkowa jest bardzo popularna w Polsce.", "Хэрба́та ябвко́ва ест ба́рдзо попула́рна в По́льсцэ.", "Яблочный чай очень популярен в Польше."],
-    ["Wystarczy zalać gorącą wodą.", "Выста́рчы зала́чь горо́нцо́н водо́н.", "Просто залейте горячей водой."],
-    ["Ta herbata pomaga schudnąć.", "Та хэрба́та пома́га схудно́нчь.", "Этот чай помогает похудеть."],
-    ["Kawa turecka — oryginalnie mielona.", "Ка́ва туре́цка — оригина́льне мело́на.", "Турецкий кофе — оригинальный помол."],
-    ["Chcą Państwo filiżankę na próbę?", "Хцо́н па́ньстфо филижа́нкэ на пру́бэ?", "Хотите чашечку на пробу?"],
-    ["Ta herbata jest dobra na żołądek.", "Та хэрба́та ест до́бра на жово́ндэк.", "Этот чай полезен для желудка."],
-    ["Herbata w proszku — rozpuszcza się od razu.", "Хэрба́та ф про́шку — роспу́щча ще од ра́зу.", "Порошковый чай — растворяется сразу."],
-  ]},
-  { cat: "🎁 Сувениры", phrases: [
-    ["To jest ręcznie robione.", "То ест рэ́нчне робё́нэ.", "Это ручная работа."],
-    ["Piękna pamiątka z Turcji.", "Пе́нкна памё́нтка с Ту́рцьи.", "Красивый сувенир из Турции."],
-    ["Mamy magnesy na lodówkę.", "Ма́мы магнэ́сы на лёду́фкэ.", "У нас есть магниты на холодильник."],
-    ["Proszę zobaczyć tę ceramikę!", "Про́шэ зоба́чычь тэ цэра́микэ!", "Посмотрите эту керамику!"],
-    ["Oko chroni przed złem.", "О́ко хро́ни пшэд звэм.", "Глаз защищает от злого."],
-    ["To jest Nazar — turecki symbol.", "То ест На́зар — туре́цки сы́мболь.", "Это назар — турецкий символ."],
-    ["Dla rodziny czy przyjaciół?", "Для родзи́ны чы пшыя́чув?", "Для семьи или друзей?"],
-    ["Mamy małe i duże rozmiary.", "Ма́мы ма́вэ и ду́жэ розмя́ры.", "У нас маленькие и большие размеры."],
-  ]},
-  { cat: "💍 Украшения", phrases: [
-    ["To jest stal nierdzewna — nie rdzewieje.", "То ест сталь нерджэ́вна — не рджэве́е.", "Это нержавеющая сталь — не ржавеет."],
-    ["Prawdziwe srebro, próba 925.", "Правджи́вэ срэ́бро, пру́ба дэвеньчо́н два́джещча пеньчь.", "Настоящее серебро, проба 925."],
-    ["Ta bransoletka pasuje do wszystkiego.", "Та бранолэ́тка пасу́е до фшы́сткего.", "Этот браслет подходит ко всему."],
-    ["Bransoletki na nogę są teraz modne.", "Бранолэ́тки на но́гэ со́н тэра́з мо́днэ.", "Браслеты на ногу сейчас в моде."],
-    ["Chcą Państwo przymierzyć?", "Хцо́н па́ньстфо пшыме́жычь?", "Хотите примерить?"],
-    ["To się nie odbarwia.", "То ще не одба́рвя.", "Это не меняет цвет."],
-    ["Mamy też naszyjniki.", "Ма́мы тэш нашы́йники.", "У нас есть и ожерелья."],
-    ["Trzy sztuki w cenie dwóch!", "Тши шту́ки ф цэ́не двух!", "Три штуки по цене двух!"],
-    ["Świetny prezent dla kobiety.", "Щфе́тны прэ́зэнт для кобе́ты.", "Отличный подарок для женщины."],
-    ["Jaki kolor się Państwu podoba?", "Я́ки ко́лёр ще па́ньстфу подо́ба?", "Какой цвет вам нравится?"],
-  ]},
-  { cat: "💰 Цена и торг", phrases: [
-    ["To kosztuje tylko ... euro.", "То кошту́е ты́лько ... э́уро.", "Это стоит всего ... евро."],
-    ["Dam Państwu dobrą cenę.", "Дам па́ньстфу до́бро́н цэ́нэ.", "Я сделаю вам хорошую цену."],
-    ["Jeśli wezmą Państwo więcej, będzie taniej.", "Е́щли вэзмо́н па́ньстфо ве́нцэй, бэ́ндже та́ней.", "Если возьмёте больше, будет дешевле."],
-    ["To już najlepsza cena.", "То юш найлэ́пша цэ́на.", "Это уже лучшая цена."],
-    ["Specjalna cena tylko dla Państwa!", "Спэцья́льна цэ́на ты́лько для па́ньстфа!", "Специальная цена только для вас!"],
-    ["Dwa za ... euro — oferta!", "Два за ... э́уро — офэ́рта!", "Два за ... евро — предложение!"],
-    ["To jest bardzo dobra jakość.", "То ест ба́рдзо до́бра я́кощчь.", "Это очень хорошее качество."],
-    ["Taniej tego Państwo nigdzie nie znajdą.", "Та́ней тэ́го па́ньстфо нигдже не зна́йдо́н.", "Дешевле вы это нигде не найдёте."],
-    ["Dobrze, dam Państwu rabat.", "До́бжэ, дам па́ньстфу ра́бат.", "Ладно, я дам вам скидку."],
-    ["Cena rodzinna — wszystko razem za ...", "Цэ́на родзи́нна — фшы́стко ра́зэм за ...", "Семейная цена — всё вместе за ..."],
-  ]},
-  { cat: "💳 Оплата", phrases: [
-    ["Gotówka czy karta?", "Готу́фка чы ка́рта?", "Наличные или картой?"],
-    ["Przyjmujemy euro i liry.", "Пшыйму́емы э́уро и ли́ры.", "Мы принимаем евро и лиры."],
-    ["Karta kredytowa też jest w porządku.", "Ка́рта крэды́това тэш ест ф поржо́ндку.", "Кредитная карта тоже подойдёт."],
-    ["Chcą Państwo torebkę?", "Хцо́н па́ньстфо торэ́бкэ?", "Хотите пакет?"],
-    ["Oto reszta.", "О́то рэ́шта.", "Вот ваша сдача."],
-    ["Potrzebują Państwo paragon?", "Потшэбу́ён па́ньстфо пара́гон?", "Вам нужен чек?"],
-    ["Dolary też przyjmujemy.", "До́ляры тэш пшыйму́емы.", "Доллары тоже принимаем."],
-    ["Złotówki niestety nie przyjmujemy.", "Звоту́фки нестэ́ты не пшыйму́емы.", "Злотые, к сожалению, не принимаем."],
-  ]},
-  { cat: "📦 Упаковка", phrases: [
-    ["Zapakować?", "Запакова́чь?", "Завернуть?"],
-    ["Zapakuję bezpiecznie do walizki.", "Запаку́е бэспе́чне до вали́зки.", "Я упакую надёжно для чемодана."],
-    ["To się zmieści w bagażu podręcznym.", "То ще змещчи́ в бага́жу подрэ́нчным.", "Это поместится в ручную кладь."],
-    ["Możemy wysłać pocztą.", "Мо́жэмы вы́свачь по́чтон.", "Мы можем отправить по почте."],
-    ["Proszę się nie martwić, bezpiecznie zapakowane.", "Про́шэ ще не ма́ртфичь, бэспе́чне запакова́нэ.", "Не волнуйтесь, упаковано надёжно."],
-  ]},
-  { cat: "🗣 Общение", phrases: [
-    ["Skąd Państwo są?", "Сконд па́ньстфо со́н?", "Откуда вы?"],
-    ["Z Polski? Wspaniale!", "С По́льски? Фспане́але!", "Из Польши? Прекрасно!"],
-    ["Są Państwo pierwszy raz w Antalyi?", "Со́н па́ньстфо пе́рфшы рас в Анта́льи?", "Вы впервые в Анталье?"],
-    ["Jak się Państwo nazywają?", "Як ще па́ньстфо называ́ён?", "Как вас зовут?"],
-    ["Podoba się Państwu Turcja?", "Подо́ба ще па́ньстфу Ту́рцья?", "Вам нравится Турция?"],
-    ["Jak długo Państwo zostają?", "Як дву́го па́ньстфо зоста́ён?", "Как долго вы здесь?"],
-    ["W jakim hotelu Państwo mieszkają?", "В я́ким хотэ́лю па́ньстфо мешка́ён?", "В каком отеле вы живёте?"],
-    ["Miłego urlopu!", "Ми́вэго у́рлёпу!", "Хорошего отпуска!"],
-    ["Polska i Turcja — przyjaciele!", "По́льска и Ту́рцья — пшыя́челе!", "Польша и Турция — друзья!"],
-    ["Mówię trochę po polsku.", "Му́ве тро́хэ по по́льску.", "Я немного говорю по-польски."],
-  ]},
-  { cat: "🤝 Убеждение", phrases: [
-    ["Nie pożałują Państwo!", "Не пожаву́ён па́ньстфо!", "Вы не пожалеете!"],
-    ["To kupują wszyscy turyści.", "То купу́ён фшы́сцы туры́щчи.", "Это покупают все туристы."],
-    ["Idealny na prezent z podróży!", "Идэа́лны на прэ́зэнт с подру́жы!", "Идеально как подарок из поездки!"],
-    ["Żona się ucieszy!", "Жо́на ще учэ́шы!", "Жена будет рада!"],
-    ["Mąż się ucieszy!", "Монш ще учэ́шы!", "Муж будет рад!"],
-    ["Tego nie znajdą Państwo nigdzie indziej!", "Тэ́го не зна́йдо́н па́ньстфо нигдже и́нджей!", "Такое найдёте только здесь!"],
-    ["Proszę wziąć dwa — jedno na prezent!", "Про́шэ взёнчь два — е́дно на прэ́зэнт!", "Возьмите два — одно как подарок!"],
-    ["To nasz bestseller!", "То наш бэстсэ́ллер!", "Это наш бестселлер!"],
-    ["Proszę brać, póki jest!", "Про́шэ бра́чь, пу́ки ест!", "Берите, пока есть!"],
-    ["Ostatnie sztuki!", "Оста́тне шту́ки!", "Последние штуки!"],
-  ]},
-  { cat: "👋 Прощание", phrases: [
-    ["Dziękuję bardzo za zakupy!", "Джеку́е ба́рдзо за заку́пы!", "Большое спасибо за покупку!"],
-    ["Zapraszamy ponownie!", "Запра́шамы поно́вне!", "Приходите ещё!"],
-    ["Miłego dnia!", "Ми́вэго дня!", "Хорошего дня!"],
-    ["Miłego urlopu!", "Ми́вэго у́рлёпу!", "Хорошего отпуска!"],
-    ["Szczęśliwej podróży!", "Щэнщли́вэй подру́жы!", "Счастливого пути!"],
-    ["Do widzenia!", "До видзэ́ня!", "До свидания!"],
-    ["Cześć!", "Чэщчь!", "Пока!"],
-    ["Proszę powiedzieć znajomym!", "Про́шэ пове́джечь знаё́мым!", "Расскажите друзьям!"],
-    ["Jesteśmy tu codziennie!", "Есте́щмы ту цодже́нне!", "Мы здесь каждый день!"],
-  ]},
-  { cat: "❓ Полезные фразы", phrases: [
-    ["Chwileczkę, proszę.", "Хфиле́чкэ, про́шэ.", "Одну минуту, пожалуйста."],
-    ["Tak, oczywiście!", "Так, очыви́щче!", "Да, конечно!"],
-    ["Nie ma problemu!", "Не ма пробле́му!", "Без проблем!"],
-    ["Niestety, to się wyprzedało.", "Нестэ́ты, то ще выпшэда́во.", "К сожалению, это распродано."],
-    ["Pokażę Państwu coś innego.", "Пока́жэ па́ньстфу цощь и́ннэго.", "Я покажу вам кое-что другое."],
-    ["To jest zupełnie nowe!", "То ест зупэ́вне но́вэ!", "Это совсем новое!"],
-    ["Mówię trochę po polsku.", "Му́ве тро́хэ по по́льску.", "Я немного говорю по-польски."],
-    ["Mogę Państwu coś pokazać?", "Могэ́ па́ньстфу цощь пока́зачь?", "Можно вам кое-что показать?"],
-    ["Czego Państwo szukają?", "Чэ́го па́ньстфо шу́каён?", "Что вы ищете?"],
-    ["Dla siebie czy na prezent?", "Для ще́бе чы на прэ́зэнт?", "Для себя или в подарок?"],
-    ["Bez pośpiechu, proszę się rozglądać!", "Бэс пощпе́ху, про́шэ ще розглё́ндачь!", "Без спешки, смотрите спокойно!"],
-    ["Może coś do picia? Herbata, woda?", "Мо́жэ цощь до пи́ча? Хэрба́та, во́да?", "Хотите что-нибудь выпить? Чай, воду?"],
-    ["Chętnie pomogę.", "Хэ́нтне помогэ́.", "Я с радостью помогу."],
-  ]},
+// ── КОНВЕРТАЦИЯ: tlPrice / 52.6 → округл вверх до 0.5 → × 2 = целое
+const RATE = 52.6;
+
+function convert(tlPrice) {
+  const raw = tlPrice / RATE;              // напр. 3.23
+  const rounded = Math.ceil(raw * 2) / 2; // вверх до 0.5 → 3.5
+  return Math.round(rounded * 2);          // × 2 → целое: 7
+}
+
+function formatEur(val) {
+  return val.toString();
+}
+
+// ── КАТЕГОРИИ
+const CAT = {
+  nut: ['FINDIK', 'BADEM', 'KAJU', 'FISTIK', 'ANTEP', 'YER FIST'],
+  seed: ['ÇEKİRDEK', 'LEBLEBI', 'LEBLEBİ'],
+  dry: ['KURUSU', 'KAYISI', 'MANGO', 'PAPAYA', 'KİVİ', 'ANANAS', 'POMELO', 'MUZ', 'TURNA', 'ÇİLEK', 'HİNDİSTAN'],
+  snack: ['MISIR', 'TACO', 'CİPS'],
+  mix: ['KARIŞIK']
+};
+
+function getCategory(name) {
+  const upper = name.toUpperCase();
+  for (const [cat, keywords] of Object.entries(CAT)) {
+    if (keywords.some(k => upper.includes(k))) return cat;
+  }
+  return 'other';
+}
+
+function getEmoji(name) {
+  const u = name.toUpperCase();
+  if (u.includes('FINDIK') || u.includes('FINDIK')) return '🌰';
+  if (u.includes('BADEM')) return '🫘';
+  if (u.includes('KAJU')) return '🥜';
+  if (u.includes('ANTEP') || u.includes('FISTIK') || u.includes('FİSTİK')) return '🟢';
+  if (u.includes('YER FIST') || u.includes('YER FİST')) return '🥜';
+  if (u.includes('ÇEKİRDEK') || u.includes('CEKİRDEK')) return '🌻';
+  if (u.includes('LEBLEBİ') || u.includes('LEBEBI')) return '⚪';
+  if (u.includes('KURUSU') || u.includes('KAYISI') || u.includes('MANGO') || u.includes('KİVİ') || u.includes('ANANAS') || u.includes('POMELO') || u.includes('MUZ') || u.includes('TURNA') || u.includes('ÇİLEK') || u.includes('HİNDİSTAN')) return '🍇';
+  if (u.includes('MISIR') || u.includes('MISIIR')) return '🌽';
+  if (u.includes('CİPS') || u.includes('CIPS')) return '🍿';
+  if (u.includes('KARIŞIK') || u.includes('KARISIK')) return '🎯';
+  return '📦';
+}
+
+// ── ПРОДУКТЫ (из двух страниц накладной)
+const PRODUCTS = [
+  // СТРАНИЦА 1
+  { code: '2047', name: 'Çitello Barbekü Soslu Mısır 250 GR×16', price: 35.1 },
+  { code: '2039', name: 'Çitello Cips Soslu Fıstık 250 GR×20', price: 47.8 },
+  { code: '', name: 'Çitello Fındık İçi Ordu 250 GR×20', price: 345.31 },
+  { code: '', name: 'Çitello Kavrulmuş Kaju Fıstık 250 GR×20', price: 170 },
+  { code: '', name: 'Çitello Lüx Karışık Çerez 250 GR×20', price: 154 },
+  { code: '2031', name: 'Çitello Naturel Antep Fıstık 250 GR×20', price: 377.2 },
+  { code: '2036', name: 'Çitello Susamlı Fıstık 250 GR×20', price: 47.8 },
+  { code: '2034', name: 'Çitello Tuzlu Fıstık İçi 250 GR×20', price: 49.95 },
+  { code: '2405', name: 'Çitello Zarli Tuzlu Fındık İçi 250 GR×20', price: 297.5 },
+  { code: '2008', name: 'Çitello Antep Fıstığı 150 GR×12', price: 240 },
+  { code: '2007', name: 'Çitello Antep Fıstığı 80 GR×10', price: 130 },
+  { code: '2020', name: 'Çitello Badem İçi 150 GR×12', price: 113 },
+  { code: '2019', name: 'Çitello Badem İçi 80 GR×10', price: 61 },
+  { code: '2044', name: 'Çitello Bol Tuzlu Siyah Çekirdek 150 GR×15', price: 32.5 },
+  { code: '2010', name: 'Çitello Fındık İçi 150 GR×12', price: 212 },
+  { code: '2009', name: 'Çitello Fındık İçi 80 GR×10', price: 114 },
+  { code: '2468', name: 'Çitello Gold Karışık Çerez 150 GR×10', price: 225 },
+  { code: '2466', name: 'Çitello Gold Karışık Çerez 80 GR×10', price: 125 },
+  { code: '2051', name: 'Çitello Golden Soslu Mısır 120 GR×12', price: 30 },
+  { code: '2052', name: 'Çitello Golden Soslu Mısır 55 GR×10', price: 14 },
+  { code: '2018', name: 'Çitello Kabak Çekirdeği Tuzlu 130 GR×10', price: 62 },
+  { code: '2017', name: 'Çitello Kabak Çekirdeği Tuzlu 65 GR×10', price: 31.5 },
+  { code: '2022', name: 'Çitello Kaju Kavrulmuş 130 GR×12', price: 94 },
+  { code: '2021', name: 'Çitello Kaju Kavrulmuş 75 GR×10', price: 55 },
+  { code: '2464', name: 'Çitello Kaplamalı Cips Fıstık 200 GR×12', price: 46 },
+  { code: '2053', name: 'Çitello Kuru Kayısı 150 GR×12', price: 126 },
+  { code: '2014', name: 'Çitello Tuzlu Sarı Leblebi 80 GR×10', price: 25.75 },
+
+  // СТРАНИЦА 2
+  { code: '', name: 'Çitello Tuzlu Siyah Çekirdek 150 GR×15', price: 32.5 },
+  { code: '', name: 'Çitello Tuzsuz Siyah Çekirdek 150 GR×15', price: 32.5 },
+  { code: '', name: 'Çitello Yer Fıstığı Taco Soslu (BBQ) 80 GR×10', price: 19 },
+  { code: '', name: 'Çitello Yer Fıstığı Tuzlu 150 GR×12', price: 37.5 },
+  { code: '', name: 'Çitello Yer Fıstığı Tuzlu 80 GR×10', price: 20.4 },
+  { code: '', name: 'Çitello Yer Fıstığı Yağlı 80 GR×10', price: 19 },
+  { code: '', name: 'Çitello Çifte Kavrulmuş Sarı Leblebi 80 GR×10', price: 25.75 },
+  { code: '', name: 'Çitello Özel Karışık Çerez 150 GR×12', price: 115 },
+  { code: '', name: 'Çitello Özel Karışık Çerez 80 GR×10', price: 60 },
+  { code: '', name: 'Çitello Hindistan Cevizi Kurusu 200 GR', price: 108.4 },
+  { code: '', name: 'Çitello Muz Kurusu 150 GR', price: 59 },
+  { code: '', name: 'Çitello Pomelo Kurusu 200 GR', price: 82.3 },
+  { code: '', name: 'Çitello Ananas Kurusu 250 GR', price: 119.5 },
+  { code: '', name: 'Çitello Kurutulmuş Kivi 200 GR', price: 68 },
+  { code: '', name: 'Çitello Papaya Kurusu 250 GR', price: 90.3 },
+  { code: '', name: 'Çitello Mango Kurusu 250 GR', price: 132.8 },
+  { code: '', name: 'Çitello Turna Yemiş Kurusu 250 GR', price: 118.2 },
+  { code: '', name: 'Çitello Çilek Kurusu 250 GR', price: 140.8 },
 ];
 
-let currentCat = "all";
+let currentCategory = 'all';
+let currentSearch = '';
 
-function init() {
-  const catsEl = document.getElementById('cats');
-  let total = 0;
-  DATA.forEach(c => total += c.phrases.length);
-
-  let html = `<button class="cat-btn active" onclick="setCat('all')">Все (${total})</button>`;
-  DATA.forEach((c, i) => {
-    html += `<button class="cat-btn" onclick="setCat(${i})">${c.cat.split(' ')[0]} ${c.cat.split(' ').slice(1).join(' ')} (${c.phrases.length})</button>`;
-  });
-  catsEl.innerHTML = html;
-  render();
+function renderStats() {
+  const total = PRODUCTS.length;
+  const minP = Math.min(...PRODUCTS.map(p => convert(p.price)));
+  const maxP = Math.max(...PRODUCTS.map(p => convert(p.price)));
+  const bar = document.getElementById('statsBar');
+  bar.innerHTML = `
+    <div class="stat-chip">Товаров: <strong>${total}</strong></div>
+    <div class="stat-chip">От <strong>€${formatEur(minP)}</strong></div>
+    <div class="stat-chip">До <strong>€${formatEur(maxP)}</strong></div>
+    <div class="stat-chip">Курс: <strong>52.6 ₺ = €1 × 2</strong></div>
+  `;
 }
 
-function setCat(c) {
-  currentCat = c;
-  document.querySelectorAll('.cat-btn').forEach((b, i) => {
-    b.classList.toggle('active', (c === 'all' && i === 0) || (c === i - 1));
-  });
-  document.getElementById('search').value = '';
-  render();
-}
+function renderProducts() {
+  const list = document.getElementById('productList');
+  const noRes = document.getElementById('noResults');
+  const search = currentSearch.toLowerCase();
 
-function render() {
-  const q = document.getElementById('search').value.toLowerCase().trim();
-  const listEl = document.getElementById('list');
+  const filtered = PRODUCTS.filter(p => {
+    const matchSearch = !search || p.name.toLowerCase().includes(search) || p.code.includes(search);
+    const cat = getCategory(p.name);
+    const matchCat = currentCategory === 'all' || cat === currentCategory;
+    return matchSearch && matchCat;
+  });
+
+  if (filtered.length === 0) {
+    list.innerHTML = '';
+    noRes.classList.remove('hidden');
+    return;
+  }
+  noRes.classList.add('hidden');
+
+  // Group by category
+  const groups = {};
+  filtered.forEach(p => {
+    const cat = getCategory(p.name);
+    if (!groups[cat]) groups[cat] = [];
+    groups[cat].push(p);
+  });
+
+  const catLabels = {
+    nut: '🥜 Орехи',
+    seed: '🌻 Семечки и снеки',
+    dry: '🍇 Сухофрукты',
+    snack: '🍿 Снеки',
+    mix: '🎯 Каришики',
+    other: '📦 Прочее'
+  };
+
   let html = '';
-  let num = 0;
+  const catOrder = ['nut', 'mix', 'seed', 'snack', 'dry', 'other'];
 
-  const cats = currentCat === 'all' ? DATA : [DATA[currentCat]];
+  catOrder.forEach(cat => {
+    if (!groups[cat]) return;
+    if (currentCategory === 'all') {
+      html += `<div class="section-header">
+        <span class="section-title">${catLabels[cat] || cat}</span>
+        <span class="count-badge">${groups[cat].length}</span>
+        <div class="section-line"></div>
+      </div>`;
+    }
+    groups[cat].forEach(p => {
+      const usd = convert(p.price);
+      const emoji = getEmoji(p.name);
+      // Extract size from name
+      const sizeMatch = p.name.match(/(\d+\s*GR[×x\*]?\d*)/i);
+      const size = sizeMatch ? sizeMatch[0].replace(/[×x\*]/, '×') : '';
+      // Short name (remove Çitello prefix and size at end)
+      let shortName = p.name
+        .replace(/^Çitello\s*/i, '')
+        .replace(/\s*\d+\s*GR[×x\*]?\d*\s*$/i, '')
+        .trim();
 
-  cats.forEach(c => {
-    let catPhrases = '';
-    let count = 0;
-    c.phrases.forEach(p => {
-      const match = !q || p[0].toLowerCase().includes(q) || p[1].toLowerCase().includes(q) || p[2].toLowerCase().includes(q);
-      if (!match) return;
-      num++;
-      count++;
-      catPhrases += `<div class="phrase">
-        <div class="num">${num}</div>
-        <div class="de">${p[0]}</div>
-        <div class="tr">${p[1]}</div>
-        <div class="ru">${p[2]}</div>
+      html += `<div class="card" data-cat="${getCategory(p.name)}">
+        <div class="card-icon">${emoji}</div>
+        <div class="card-info">
+          <div class="card-name">${shortName}</div>
+          <div class="card-meta">
+            ${p.code ? `<span class="card-code">#${p.code}</span>` : ''}
+            ${size ? `<span class="card-size">${size}</span>` : ''}
+          </div>
+        </div>
+        <div class="card-price-wrap">
+          <div class="price-converted">€${formatEur(usd)}</div>
+          <span class="price-currency">Евро</span>
+          <div class="price-original">${p.price} ₺</div>
+        </div>
       </div>`;
     });
-    if (count > 0) {
-      html += `<div class="cat-label">${c.cat} <span class="count-badge">${count}</span></div>` + catPhrases;
-    }
   });
 
-  if (!html) {
-    html = '<div class="empty">Ничего не найдено 😕</div>';
-  }
-
-  listEl.innerHTML = html;
-  listEl.scrollTop = 0;
+  list.innerHTML = html;
 }
 
-document.getElementById('search').addEventListener('input', render);
-
-document.getElementById('list').addEventListener('scroll', function() {
-  document.getElementById('topBtn').classList.toggle('show', this.scrollTop > 300);
-});
-
-function scrollTop() {
-  document.getElementById('list').scrollTo({ top: 0, behavior: 'smooth' });
+function filterCategory(cat, btn) {
+  currentCategory = cat;
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  renderProducts();
 }
 
-init();
+function filterProducts() {
+  currentSearch = document.getElementById('searchInput').value;
+  renderProducts();
+}
+
+// INIT
+renderStats();
+renderProducts();
 </script>
 
 </body>
